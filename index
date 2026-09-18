@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HomeFlow — Casa pulita senza stress</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#4A7C59">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HomeFlow">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4A7C59;
+      --primary-light: #EBF3ED;
+      --primary-dark: #365B41;
+      --accent: #E88771;
+      --accent-light: #FDF1EE;
+      --bg-main: #F8FAF8;
+      --card-bg: #FFFFFF;
+      --text-main: #212529;
+      --text-muted: #6C757D;
+      --border-color: #E9ECEF;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding-bottom: 90px;
+      line-height: 1.5;
+    }
+
+    /* APP BAR TOP */
+    header {
+      background: var(--card-bg);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--primary);
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .streak-badge {
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* CONTAINER MAIN */
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* SECTIONS & NAVIGATION */
+    .section-page {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .section-page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 14px;
+      z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 25%;
+      transition: color 0.2s;
+    }
+
+    .nav-btn i {
+      font-size: 1.2rem;
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    /* PROGRESS BAR */
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar-bg {
+      height: 10px;
+      background: var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.4s ease;
+      border-radius: 10px;
+    }
+
+    /* DECISION GUIDE / HERO */
+    .hero-guide {
+      background: linear-gradient(135deg, #4A7C59, #365B41);
+      color: white;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .hero-guide h2 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .hero-guide p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .choice-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      color: white;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .choice-card:active {
+      transform: scale(0.97);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .choice-card i {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .choice-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+
+    .choice-card span {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      display: block;
+    }
+
+    /* SPRINT TIMER CARD */
+    .sprint-card {
+      background: var(--accent-light);
+      border: 1px solid rgba(232, 135, 113, 0.3);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .sprint-info h3 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .sprint-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .sprint-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* TABS */
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab-item.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* CHECKLIST ITEMS */
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border-bottom: 1px solid var(--border-color);
+      transition: background 0.15s;
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .checkbox {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .task-item.completed .checkbox {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .task-item.completed span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .task-text {
+      font-size: 0.95rem;
+      font-weight: 500;
+      flex-grow: 1;
+    }
+
+    .task-badge {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    /* ROOM GRID */
+    .room-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .room-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .room-card:active {
+      transform: scale(0.97);
+    }
+
+    .room-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin: 0 auto 10px;
+    }
+
+    .room-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .room-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* MODAL TIMER */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .timer-display {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 20px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: var(--border-color); color: var(--text-main); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER APPLICAZIONE -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-sparkles"></i></div>
+      <h1>HomeFlow</h1>
+    </div>
+    <div class="streak-badge">
+      <i class="fa-solid fa-fire"></i>
+      <span id="streak-count">3 Giorni</span>
+    </div>
+  </header>
+
+  <!-- CONTENUTO PRINCIPALE -->
+  <div class="container">
+
+    <!-- PAGINA HOME / DASHBOARD -->
+    <div id="page-home" class="section-page active">
+      
+      <!-- GUIDA DECISIONALE INTUITIVA -->
+      <div class="hero-guide">
+        <h2>Come vuoi pulire oggi?</h2>
+        <p>Scegli il metodo più adatto al tempo e all'energia che hai adesso.</p>
+        
+        <div class="choice-grid">
+          <div class="choice-card" onclick="switchPage('routine')">
+            <i class="fa-solid fa-clock"></i>
+            <h4>Per Tempo</h4>
+            <span>Routine veloci del giorno</span>
+          </div>
+          <div class="choice-card" onclick="switchPage('stanze')">
+            <i class="fa-solid fa-house-chimney"></i>
+            <h4>Per Stanza</h4>
+            <span>Pulisci un ambiente specifico</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPRINT 15 MINUTI -->
+      <div class="sprint-card">
+        <div class="sprint-info">
+          <h3>⚡ Sprint 15 Minuti</h3>
+          <p>Un riordino lampo per rinfrescare la casa</p>
+        </div>
+        <button class="sprint-btn" onclick="openTimer()">
+          <i class="fa-solid fa-play"></i> Avvia
+        </button>
+      </div>
+
+      <!-- AVANZAMENTO GIORNALIERO -->
+      <div class="card">
+        <div class="progress-header">
+          <h3 style="font-size: 1rem; font-weight: 700;">Progressi di Oggi</h3>
+          <span id="progress-percent" style="font-size: 0.9rem; font-weight: 700; color: var(--primary);">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- LISTA ROUTINE GIORNALIERA RAPIDA -->
+      <div class="card">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px;">Essential Daily</h3>
+        <div id="home-daily-tasks"></div>
+      </div>
+
+    </div>
+
+    <!-- PAGINA ROUTINE (TEMPO) -->
+    <div id="page-routine" class="section-page">
+      <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Piano Routine</h2>
+      
+      <div class="tabs-bar">
+        <div class="tab-item active" onclick="switchTab('giornaliera')">Giornaliera</div>
+        <div class="tab-item" onclick="switchTab('settimanale')">Settimanale</div>
+        <div class="tab-item" onclick="switchTab('mensile')">Mensile</div>
+        <div class="tab-item" onclick="switchTab('trimestrale')">Trimestrale</div>
+        <div class="tab-item" onclick="switchTab('stagionale')">Stagionale</div>
+      </div>
+
+      <div class="card">
+        <div id="routine-task-list"></div>
+      </div>
+    </div>
+
+    <!-- PAGINA STANZE -->
+    <div id="page-stanze" class="section-page">
+      <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Scegli Stanza</h2>
+      
+      <div class="room-grid">
+        <div class="room-card" onclick="openRoomModal('Cucina')">
+          <div class="room-icon"><i class="fa-solid fa-utensils"></i></div>
+          <h3>Cucina</h3>
+          <p>Superfici, piatti, piano cottura</p>
+        </div>
+        <div class="room-card" onclick="openRoomModal('Bagno')">
+          <div class="room-icon"><i class="fa-solid fa-shower"></i></div>
+          <h3>Bagno</h3>
+          <p>Sanitari, specchio, doccia</p>
+        </div>
+        <div class="room-card" onclick="openRoomModal('Camera')">
+          <div class="room-icon"><i class="fa-solid fa-bed"></i></div>
+          <h3>Camera</h3>
+          <p>Letto, vestiti, comodini</p>
+        </div>
+        <div class="room-card" onclick="openRoomModal('Soggiorno')">
+          <div class="room-icon"><i class="fa-solid fa-couch"></i></div>
+          <h3>Soggiorno</h3>
+          <p>Divano, TV, tavolini</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGINA TIPS & RICETTE -->
+    <div id="page-tips" class="section-page">
+      <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Eco Tips & Ricette</h2>
+      
+      <div class="card">
+        <h3 style="color: var(--primary-dark); font-size: 1.05rem; margin-bottom: 8px;"><i class="fa-solid fa-spray-can"></i> Multiuso Eco Fatto in Casa</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Perfetto per piano cottura, tavoli e mensole.</p>
+        <ul style="font-size: 0.85rem; padding-left: 20px; color: var(--text-main);">
+          <li>500ml di Acqua</li>
+          <li>1 cucchiaio di Detersivo Piatti</li>
+          <li>1 cucchiaio di Bicarbonato o Alcol</li>
+          <li>5 gocce di olio essenziale al limone/lavanda</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="color: var(--primary-dark); font-size: 1.05rem; margin-bottom: 8px;"><i class="fa-solid fa-feather"></i> Regola dei 2 Minuti</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">Se un'attività di riordino richiede meno di 2 minuti (es. rimettere a posto le scarpe o sciacquare una tazza), falla subito. Eviterai l'accumulo del caos!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TIMER SPRINT MODAL -->
+  <div id="timer-modal" class="modal">
+    <div class="modal-content">
+      <h3 style="font-size: 1.2rem; color: var(--accent);">Sprint 15 Minuti</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Pulisci quanto puoi finché scade il tempo!</p>
+      <div class="timer-display" id="timer-count">15:00</div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeTimer()">Chiudi</button>
+        <button class="btn btn-primary" id="timer-toggle-btn" onclick="toggleTimer()">Start</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR BOTTOM -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-home" onclick="switchPage('home')">
+      <i class="fa-solid fa-house"></i>
+      Home
+    </button>
+    <button class="nav-btn" id="nav-routine" onclick="switchPage('routine')">
+      <i class="fa-solid fa-list-check"></i>
+      Routine
+    </button>
+    <button class="nav-btn" id="nav-stanze" onclick="switchPage('stanze')">
+      <i class="fa-solid fa-door-open"></i>
+      Stanze
+    </button>
+    <button class="nav-btn" id="nav-tips" onclick="switchPage('tips')">
+      <i class="fa-solid fa-lightbulb"></i>
+      Tips
+    </button>
+  </nav>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // DATI APPLICAZIONE CON MODIFICHE RICHIESTE
+    const tasksData = {
+      giornaliera: [
+        { id: 'd1', text: 'Rifare il letto' },
+        { id: 'd2', text: 'Lavare piatti o caricare lavastoviglie' },
+        { id: 'd3', text: 'Pulizia e setaccio lettiera' },
+        { id: 'd4', text: 'Arare e arieggiare le stanze' },
+        { id: 'd5', text: 'Pulire piano cottura e lavello' }
+      ],
+      settimanale: [
+        { id: 'w1', text: 'Aspirare e lavare i pavimenti' },
+        { id: 'w2', text: 'Pulizia approfondita bagno' },
+        { id: 'w3', text: 'Cambio lenzuola e asciugamani' }
+      ],
+      mensile: [
+        { id: 'm1', text: 'Spolverare mobili e mensole' },
+        { id: 'm2', text: 'Pulizia forno e microonde' }
+      ],
+      trimestrale: [
+        { id: 't1', text: 'Pulizia e riordino frigorifero' }
+      ],
+      stagionale: [
+        { id: 's1', text: 'Lavare vetri e specchi' }
+      ]
+    };
+
+    let currentTab = 'giornaliera';
+    let completedTasks = JSON.parse(localStorage.getItem('homeflow_completed')) || [];
+
+    // NAVIGATION
+    function switchPage(pageId) {
+      document.querySelectorAll('.section-page').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(`page-${pageId}`).classList.add('active');
+      document.getElementById(`nav-${pageId}`).classList.add('active');
+
+      if(pageId === 'home') renderHome();
+      if(pageId === 'routine') renderRoutine();
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
+      renderRoutine();
+    }
+
+    // TOGGLE TASK
+    function toggleTask(taskId) {
+      if(completedTasks.includes(taskId)) {
+        completedTasks = completedTasks.filter(id => id !== taskId);
+      } else {
+        completedTasks.push(taskId);
+      }
+      localStorage.setItem('homeflow_completed', JSON.stringify(completedTasks));
+      renderHome();
+      renderRoutine();
+    }
+
+    // RENDER HOME
+    function renderHome() {
+      const homeContainer = document.getElementById('home-daily-tasks');
+      const dailyTasks = tasksData.giornaliera;
+      
+      let html = '';
+      let completedCount = 0;
+
+      dailyTasks.forEach(task => {
+        const isDone = completedTasks.includes(task.id);
+        if(isDone) completedCount++;
+        html += `
+          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+            <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
+            <span class="task-text">${task.text}</span>
+          </div>
+        `;
+      });
+
+      homeContainer.innerHTML = html;
+
+      // UPDATE PROGRESS BAR
+      const percent = Math.round((completedCount / dailyTasks.length) * 100) || 0;
+      document.getElementById('progress-percent').innerText = `${percent}%`;
+      document.getElementById('progress-fill').style.width = `${percent}%`;
+    }
+
+    // RENDER ROUTINE TAB
+    function renderRoutine() {
+      const container = document.getElementById('routine-task-list');
+      const tasks = tasksData[currentTab] || [];
+
+      if(tasks.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color: var(--text-muted); padding: 20px;">Nessuna attività prevista.</p>`;
+        return;
+      }
+
+      let html = '';
+      tasks.forEach(task => {
+        const isDone = completedTasks.includes(task.id);
+        html += `
+          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+            <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
+            <span class="task-text">${task.text}</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // TIMER LOGIC
+    let timerInterval = null;
+    let timeLeft = 15 * 60;
+    let isTimerRunning = false;
+
+    function openTimer() {
+      document.getElementById('timer-modal').style.display = 'flex';
+    }
+
+    function closeTimer() {
+      document.getElementById('timer-modal').style.display = 'none';
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      document.getElementById('timer-toggle-btn').innerText = 'Start';
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timer-toggle-btn');
+      if(isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.innerText = 'Start';
+      } else {
+        isTimerRunning = true;
+        btn.innerText = 'Pausa';
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          const minutes = Math.floor(timeLeft / 60);
+          const seconds = timeLeft % 60;
+          document.getElementById('timer-count').innerText = 
+            `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+          if(timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert('Tempo scaduto! Ottimo lavoro!');
+            closeTimer();
+          }
+        }, 1000);
+      }
+    }
+
+    // ROOM MODAL SIMULATION
+    function openRoomModal(roomName) {
+      alert(`Hai aperto la checklist per: ${roomName}. Funzionalità integrata nella vista Stanza!`);
+    }
+
+    // INIT
+    renderHome();
+  </script>
+</body>
+</html>

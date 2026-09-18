@@ -50,7 +50,6 @@
       line-height: 1.5;
     }
 
-    /* APP BAR TOP */
     header {
       background: var(--card-bg);
       padding: 16px 20px;
@@ -100,14 +99,12 @@
       gap: 6px;
     }
 
-    /* CONTAINER MAIN */
     .container {
       padding: 20px;
       max-width: 600px;
       margin: 0 auto;
     }
 
-    /* SECTIONS & NAVIGATION */
     .section-page {
       display: none;
       animation: fadeIn 0.25s ease-in-out;
@@ -122,7 +119,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* BOTTOM NAV */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -160,7 +156,6 @@
       color: var(--primary);
     }
 
-    /* CARDS */
     .card {
       background: var(--card-bg);
       border-radius: var(--radius);
@@ -170,7 +165,6 @@
       border: 1px solid var(--border-color);
     }
 
-    /* PROGRESS BAR */
     .progress-header {
       display: flex;
       justify-content: space-between;
@@ -193,7 +187,6 @@
       border-radius: 10px;
     }
 
-    /* DECISION GUIDE / HERO */
     .hero-guide {
       background: linear-gradient(135deg, #4A7C59, #365B41);
       color: white;
@@ -254,7 +247,6 @@
       display: block;
     }
 
-    /* SPRINT TIMER CARD */
     .sprint-card {
       background: var(--accent-light);
       border: 1px solid rgba(232, 135, 113, 0.3);
@@ -291,7 +283,6 @@
       gap: 6px;
     }
 
-    /* TABS */
     .tabs-bar {
       display: flex;
       gap: 8px;
@@ -318,7 +309,6 @@
       border-color: var(--primary);
     }
 
-    /* CHECKLIST ITEMS */
     .task-item {
       display: flex;
       align-items: center;
@@ -362,16 +352,6 @@
       flex-grow: 1;
     }
 
-    .task-badge {
-      font-size: 0.7rem;
-      padding: 3px 8px;
-      border-radius: 10px;
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      font-weight: 600;
-    }
-
-    /* ROOM GRID */
     .room-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -417,7 +397,6 @@
       color: var(--text-muted);
     }
 
-    /* MODAL TIMER */
     .modal {
       display: none;
       position: fixed;
@@ -434,8 +413,10 @@
       border-radius: 20px;
       padding: 24px;
       width: 100%;
-      max-width: 400px;
-      text-align: center;
+      max-width: 450px;
+      max-height: 80vh;
+      overflow-y: auto;
+      text-align: left;
     }
 
     .timer-display {
@@ -444,12 +425,14 @@
       color: var(--accent);
       margin: 20px 0;
       font-variant-numeric: tabular-nums;
+      text-align: center;
     }
 
     .modal-actions {
       display: flex;
       gap: 10px;
       justify-content: center;
+      margin-top: 20px;
     }
 
     .btn {
@@ -467,7 +450,6 @@
 </head>
 <body>
 
-  <!-- HEADER APPLICAZIONE -->
   <header>
     <div class="brand">
       <div class="brand-icon"><i class="fa-solid fa-sparkles"></i></div>
@@ -479,13 +461,9 @@
     </div>
   </header>
 
-  <!-- CONTENUTO PRINCIPALE -->
   <div class="container">
 
-    <!-- PAGINA HOME / DASHBOARD -->
     <div id="page-home" class="section-page active">
-      
-      <!-- GUIDA DECISIONALE INTUITIVA -->
       <div class="hero-guide">
         <h2>Come vuoi pulire oggi?</h2>
         <p>Scegli il metodo più adatto al tempo e all'energia che hai adesso.</p>
@@ -504,7 +482,6 @@
         </div>
       </div>
 
-      <!-- SPRINT 15 MINUTI -->
       <div class="sprint-card">
         <div class="sprint-info">
           <h3>⚡ Sprint 15 Minuti</h3>
@@ -515,7 +492,6 @@
         </button>
       </div>
 
-      <!-- AVANZAMENTO GIORNALIERO -->
       <div class="card">
         <div class="progress-header">
           <h3 style="font-size: 1rem; font-weight: 700;">Progressi di Oggi</h3>
@@ -526,15 +502,12 @@
         </div>
       </div>
 
-      <!-- LISTA ROUTINE GIORNALIERA RAPIDA -->
       <div class="card">
         <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px;">Essential Daily</h3>
         <div id="home-daily-tasks"></div>
       </div>
-
     </div>
 
-    <!-- PAGINA ROUTINE (TEMPO) -->
     <div id="page-routine" class="section-page">
       <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Piano Routine</h2>
       
@@ -551,7 +524,6 @@
       </div>
     </div>
 
-    <!-- PAGINA STANZE -->
     <div id="page-stanze" class="section-page">
       <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Scegli Stanza</h2>
       
@@ -579,7 +551,6 @@
       </div>
     </div>
 
-    <!-- PAGINA TIPS & RICETTE -->
     <div id="page-tips" class="section-page">
       <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Eco Tips & Ricette</h2>
       
@@ -604,7 +575,7 @@
 
   <!-- TIMER SPRINT MODAL -->
   <div id="timer-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" style="text-align: center;">
       <h3 style="font-size: 1.2rem; color: var(--accent);">Sprint 15 Minuti</h3>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Pulisci quanto puoi finché scade il tempo!</p>
       <div class="timer-display" id="timer-count">15:00</div>
@@ -615,7 +586,17 @@
     </div>
   </div>
 
-  <!-- NAVIGATION BAR BOTTOM -->
+  <!-- CHECKLIST STANZA MODAL -->
+  <div id="room-modal" class="modal">
+    <div class="modal-content">
+      <h3 id="room-modal-title" style="font-size: 1.2rem; color: var(--primary-dark); margin-bottom: 14px;">Checklist Stanza</h3>
+      <div id="room-tasks-list"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" style="width: 100%;" onclick="closeRoomModal()">Fatto</button>
+      </div>
+    </div>
+  </div>
+
   <nav class="bottom-nav">
     <button class="nav-btn active" id="nav-home" onclick="switchPage('home')">
       <i class="fa-solid fa-house"></i>
@@ -635,9 +616,7 @@
     </button>
   </nav>
 
-  <!-- JAVASCRIPT LOGIC -->
   <script>
-    // DATI APPLICAZIONE CON MODIFICHE RICHIESTE
     const tasksData = {
       giornaliera: [
         { id: 'd1', text: 'Rifare il letto' },
@@ -659,14 +638,41 @@
         { id: 't1', text: 'Pulizia e riordino frigorifero' }
       ],
       stagionale: [
-        { id: 's1', text: 'Lavare vetri e specchi' }
+        { id: 's1', text: 'Lavare vetri e specchi' },
+        { id: 's2', text: 'Cambio stagione degli armadi' }
+      ]
+    };
+
+    const roomTasks = {
+      Cucina: [
+        { id: 'rc1', text: 'Lavare lavello e piano cottura' },
+        { id: 'rc2', text: 'Sgrassare ante dei pensili' },
+        { id: 'rc3', text: 'Pulire briciole dal tavolo' },
+        { id: 'rc4', text: 'Passare straccio su pavimento cucina' }
+      ],
+      Bagno: [
+        { id: 'rb1', text: 'Disinfettare lavandino e sanitari' },
+        { id: 'rb2', text: 'Pulire specchio e rubinetteria' },
+        { id: 'rb3', text: 'Sciacquare box doccia o vasca' },
+        { id: 'rb4', text: 'Svuotare cestino e cambiare asciugamani' }
+      ],
+      Camera: [
+        { id: 'rr1', text: 'Rifare il letto e sistemare cuscini' },
+        { id: 'rr2', text: 'Rimettere a posto vestiti in sospeso' },
+        { id: 'rr3', text: 'Spolverare comodini e scrivania' },
+        { id: 'rr4', text: 'Svuotare eventuale cestino carta' }
+      ],
+      Soggiorno: [
+        { id: 'rs1', text: 'Spolverare mobile TV e tavolino' },
+        { id: 'rs2', text: 'Sistemare cuscini e copertine sul divano' },
+        { id: 'rs3', text: 'Aspirare il tappeto' },
+        { id: 'rs4', text: 'Sistemare oggetti fuori posto' }
       ]
     };
 
     let currentTab = 'giornaliera';
     let completedTasks = JSON.parse(localStorage.getItem('homeflow_completed')) || [];
 
-    // NAVIGATION
     function switchPage(pageId) {
       document.querySelectorAll('.section-page').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
@@ -685,8 +691,7 @@
       renderRoutine();
     }
 
-    // TOGGLE TASK
-    function toggleTask(taskId) {
+    function toggleTask(taskId, roomName = null) {
       if(completedTasks.includes(taskId)) {
         completedTasks = completedTasks.filter(id => id !== taskId);
       } else {
@@ -695,9 +700,9 @@
       localStorage.setItem('homeflow_completed', JSON.stringify(completedTasks));
       renderHome();
       renderRoutine();
+      if(roomName) renderRoomTasks(roomName);
     }
 
-    // RENDER HOME
     function renderHome() {
       const homeContainer = document.getElementById('home-daily-tasks');
       const dailyTasks = tasksData.giornaliera;
@@ -718,13 +723,11 @@
 
       homeContainer.innerHTML = html;
 
-      // UPDATE PROGRESS BAR
       const percent = Math.round((completedCount / dailyTasks.length) * 100) || 0;
       document.getElementById('progress-percent').innerText = `${percent}%`;
       document.getElementById('progress-fill').style.width = `${percent}%`;
     }
 
-    // RENDER ROUTINE TAB
     function renderRoutine() {
       const container = document.getElementById('routine-task-list');
       const tasks = tasksData[currentTab] || [];
@@ -739,6 +742,37 @@
         const isDone = completedTasks.includes(task.id);
         html += `
           <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+            <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
+            <span class="task-text">${task.text}</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ROOM MODAL LOGIC
+    let activeRoomName = null;
+    function openRoomModal(roomName) {
+      activeRoomName = roomName;
+      document.getElementById('room-modal-title').innerText = `Pulizia: ${roomName}`;
+      renderRoomTasks(roomName);
+      document.getElementById('room-modal').style.display = 'flex';
+    }
+
+    function closeRoomModal() {
+      document.getElementById('room-modal').style.display = 'none';
+    }
+
+    function renderRoomTasks(roomName) {
+      const container = document.getElementById('room-tasks-list');
+      const tasks = roomTasks[roomName] || [];
+      let html = '';
+
+      tasks.forEach(task => {
+        const isDone = completedTasks.includes(task.id);
+        html += `
+          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}', '${roomName}')">
             <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
             <span class="task-text">${task.text}</span>
           </div>
@@ -788,12 +822,6 @@
       }
     }
 
-    // ROOM MODAL SIMULATION
-    function openRoomModal(roomName) {
-      alert(`Hai aperto la checklist per: ${roomName}. Funzionalità integrata nella vista Stanza!`);
-    }
-
-    // INIT
     renderHome();
   </script>
 </body>

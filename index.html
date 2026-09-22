@@ -18,7 +18,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
   <style>
-    <style>
     :root {
       --primary: #ED6A5A;        /* Vibrant Coral */
       --primary-light: #FDF1EE;  /* Sfondo chiaro coral */
@@ -60,18 +59,18 @@
 
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
     
-    .hero-guide { background: linear-gradient(135deg, #4A7C59, #365B41); color: white; border-radius: var(--radius); padding: 22px; margin-bottom: 24px; }
+    .hero-guide { background: linear-gradient(135deg, #ED6A5A, #D55243); color: white; border-radius: var(--radius); padding: 22px; margin-bottom: 24px; }
     .hero-guide h2 { font-size: 1.3rem; margin-bottom: 6px; }
-    .hero-guide p { font-size: 0.9rem; opacity: 0.9; margin-bottom: 16px; }
+    .hero-guide p { font-size: 0.9rem; opacity: 0.95; margin-bottom: 16px; }
     .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .choice-card { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px; color: white; cursor: pointer; }
+    .choice-card { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px; padding: 14px; color: white; cursor: pointer; }
 
     .task-item { display: flex; align-items: center; gap: 14px; padding: 14px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
     .task-item:last-child { border-bottom: none; }
     .checkbox { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; }
     .task-item.completed .checkbox { background: var(--primary); border-color: var(--primary); color: white; }
     .task-item.completed span { text-decoration: line-through; color: var(--text-muted); }
-    .task-text { font-size: 0.95rem; font-weight: 500; flex-grow: 1; }
+    .task-text { font-size: 0.95rem; font-weight: 500; flex-grow: 1; color: var(--text-main); }
 
     .tabs-bar { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
     .tab-item { background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
@@ -79,9 +78,9 @@
 
     .room-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .room-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 18px; text-align: center; cursor: pointer; }
-    .room-icon { width: 48px; height: 48px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 10px; }
+    .room-icon { width: 48px; height: 48px; background: var(--accent-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 10px; }
 
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(93, 87, 107, 0.5); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
     .modal-content { background: var(--card-bg); border-radius: 20px; padding: 24px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; }
     .btn { padding: 12px 20px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; font-size: 0.9rem; }
     .btn-primary { background: var(--primary); color: white; }
@@ -195,7 +194,7 @@
       giornaliera: [
         { id: 'd1', text: 'Rifare il letto' },
         { id: 'd2', text: 'Lavare piatti o caricare lavastoviglie' },
-        { id: 'd3', text: 'Pulizia e setaccio lettiera' },
+        { id: 'd3', text: 'Setaccio lettiera' },
         { id: 'd4', text: 'Arieggiare le stanze' },
         { id: 'd5', text: 'Pulire piano cottura e lavello' }
       ],
@@ -204,7 +203,8 @@
         { id: 'w2', text: 'Pulizia approfondita bagno' },
         { id: 'w3', text: 'Cambio lenzuola e asciugamani' },
         { id: 'w4', text: 'Pulire fontanella di Briciolo 🐱' },
-        { id: 'w5', text: 'Fare spesa online' }
+        { id: 'w5', text: 'Fare spesa online' },
+        { id: 'w6', text: 'Pulizia approfondita lettiera' }
       ],
       mensile: [
         { id: 'm1', text: 'Spolverare mobili e mensole' },

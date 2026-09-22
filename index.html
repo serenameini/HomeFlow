@@ -59,11 +59,64 @@
 
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
     
-    .hero-guide { background: linear-gradient(135deg, #ED6A5A, #D55243); color: white; border-radius: var(--radius); padding: 22px; margin-bottom: 24px; }
+    .hero-guide { background: linear-gradient(135deg, #ED6A5A, #D55243); color: white; border-radius: var(--radius); padding: 22px; margin-bottom: 20px; }
     .hero-guide h2 { font-size: 1.3rem; margin-bottom: 6px; }
     .hero-guide p { font-size: 0.9rem; opacity: 0.95; margin-bottom: 16px; }
     .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .choice-card { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px; padding: 14px; color: white; cursor: pointer; }
+
+    .sprint-card {
+      background: var(--primary-light);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .sprint-info h3 {
+      font-size: 1rem;
+      color: var(--primary-dark);
+      margin-bottom: 2px;
+      font-weight: 700;
+    }
+
+    .sprint-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .sprint-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timer-display {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 20px 0;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
     .task-item { display: flex; align-items: center; gap: 14px; padding: 14px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
     .task-item:last-child { border-bottom: none; }
@@ -84,6 +137,7 @@
     .modal-content { background: var(--card-bg); border-radius: 20px; padding: 24px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; }
     .btn { padding: 12px 20px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; font-size: 0.9rem; }
     .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: var(--border-color); color: var(--text-main); }
   </style>
 </head>
 <body>
@@ -102,7 +156,7 @@
     <div id="page-home" class="section-page active">
       <div class="hero-guide">
         <h2>Come vuoi pulire oggi?</h2>
-        <p>Casa sincronizzata in tempo reale per entrambi.</p>
+        <p>Casa sincronizzata in tempo reale.</p>
         <div class="choice-grid">
           <div class="choice-card" onclick="switchPage('routine')">
             <i class="fa-solid fa-clock"></i>
@@ -115,6 +169,16 @@
             <span>Pulisci un ambiente</span>
           </div>
         </div>
+      </div>
+
+      <div class="sprint-card">
+        <div class="sprint-info">
+          <h3>⚡ Sprint 15 Minuti</h3>
+          <p>Un riordino lampo per rinfrescare la casa</p>
+        </div>
+        <button class="sprint-btn" onclick="openTimer()">
+          <i class="fa-solid fa-play"></i> Avvia
+        </button>
       </div>
 
       <div class="card">
@@ -156,6 +220,19 @@
           <div class="room-icon"><i class="fa-solid fa-couch"></i></div>
           <h3>Soggiorno</h3>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMER SPRINT MODAL -->
+  <div id="timer-modal" class="modal">
+    <div class="modal-content" style="text-align: center;">
+      <h3 style="font-size: 1.2rem; color: var(--primary-dark);">Sprint 15 Minuti</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Pulisci quanto puoi finché scade il tempo!</p>
+      <div class="timer-display" id="timer-count">15:00</div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeTimer()">Chiudi</button>
+        <button class="btn btn-primary" id="timer-toggle-btn" onclick="toggleTimer()">Start</button>
       </div>
     </div>
   </div>
@@ -309,6 +386,46 @@
           </div>`;
       });
       container.innerHTML = html;
+    }
+
+    // LOGICA TIMER
+    let timerInterval = null;
+    let timeLeft = 15 * 60;
+    let isTimerRunning = false;
+
+    function openTimer() {
+      document.getElementById('timer-modal').style.display = 'flex';
+    }
+
+    function closeTimer() {
+      document.getElementById('timer-modal').style.display = 'none';
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      document.getElementById('timer-toggle-btn').innerText = 'Start';
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timer-toggle-btn');
+      if(isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.innerText = 'Start';
+      } else {
+        isTimerRunning = true;
+        btn.innerText = 'Pausa';
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          const minutes = Math.floor(timeLeft / 60);
+          const seconds = timeLeft % 60;
+          document.getElementById('timer-count').innerText = 
+            `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+          if(timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert('Tempo scaduto! Ottimo lavoro!');
+            closeTimer();
+          }
+        }, 1000);
+      }
     }
   </script>
 </body>

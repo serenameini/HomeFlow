@@ -76,47 +76,21 @@
       margin-bottom: 20px;
     }
 
-    .sprint-info h3 {
-      font-size: 1rem;
-      color: var(--primary-dark);
-      margin-bottom: 2px;
-      font-weight: 700;
-    }
-
-    .sprint-info p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
+    .sprint-info h3 { font-size: 1rem; color: var(--primary-dark); margin-bottom: 2px; font-weight: 700; }
+    .sprint-info p { font-size: 0.82rem; color: var(--text-muted); }
 
     .sprint-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      background: var(--primary); color: white; border: none; padding: 10px 18px;
+      border-radius: 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
     }
 
     .timer-display {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin: 20px 0;
-      font-variant-numeric: tabular-nums;
-      text-align: center;
+      font-size: 3.5rem; font-weight: 800; color: var(--primary); margin: 20px 0;
+      font-variant-numeric: tabular-nums; text-align: center;
     }
 
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 20px;
-    }
+    .modal-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
 
     .task-item { display: flex; align-items: center; gap: 14px; padding: 14px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
     .task-item:last-child { border-bottom: none; }
@@ -156,7 +130,7 @@
     <div id="page-home" class="section-page active">
       <div class="hero-guide">
         <h2>Come vuoi pulire oggi?</h2>
-        <p>Casa sincronizzata in tempo reale.</p>
+        <p>Casa sincronizzata in tempo reale per entrambi.</p>
         <div class="choice-grid">
           <div class="choice-card" onclick="switchPage('routine')">
             <i class="fa-solid fa-clock"></i>
@@ -265,34 +239,32 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const houseRef = db.ref('casa_condivisa/tasks');
+    const houseRef = db.ref('casa_condivisa/tasks_v2');
 
     const tasksData = {
       giornaliera: [
-        { id: 'd1', text: 'Rifare il letto' },
-        { id: 'd2', text: 'Lavare piatti o caricare lavastoviglie' },
-        { id: 'd3', text: 'Setaccio lettiera' },
-        { id: 'd4', text: 'Arieggiare le stanze' },
-        { id: 'd5', text: 'Pulire piano cottura e lavello' }
+        { id: 'd1', text: 'Rifare il letto', freq: 'giornaliera' },
+        { id: 'd2', text: 'Lavare piatti o caricare lavastoviglie', freq: 'giornaliera' },
+        { id: 'd3', text: 'Setaccio lettiera', freq: 'giornaliera' },
+        { id: 'd4', text: 'Arieggiare le stanze', freq: 'giornaliera' },
+        { id: 'd5', text: 'Pulire piano cottura e lavello', freq: 'giornaliera' }
       ],
       settimanale: [
-        { id: 'w1', text: 'Aspirare e lavare i pavimenti' },
-        { id: 'w2', text: 'Pulizia approfondita bagno' },
-        { id: 'w3', text: 'Cambio lenzuola e asciugamani' },
-        { id: 'w4', text: 'Pulire fontanella di Briciolo 🐱' },
-        { id: 'w5', text: 'Fare spesa online' },
-        { id: 'w6', text: 'Pulizia approfondita lettiera' },
-        { id: 'w7', text: 'Fare & stendere lavatrice' }
+        { id: 'w1', text: 'Aspirare e lavare i pavimenti', freq: 'settimanale' },
+        { id: 'w2', text: 'Pulizia approfondita bagno', freq: 'settimanale' },
+        { id: 'w3', text: 'Cambio lenzuola e asciugamani', freq: 'settimanale' },
+        { id: 'w4', text: 'Pulire fontanella di Briciolo 🐱', freq: 'settimanale' },
+        { id: 'w5', text: 'Fare spesa online', freq: 'settimanale' },
+        { id: 'w6', text: 'Pulizia approfondita lettiera', freq: 'settimanale' }
       ],
       mensile: [
-        { id: 'm1', text: 'Spolverare mobili e mensole' },
-        { id: 'm2', text: 'Pulizia forno e microonde' },
-        { id: 'm3', text: 'Mettere disgorgante nella doccia' }
+        { id: 'm1', text: 'Spolverare mobili e mensole', freq: 'mensile' },
+        { id: 'm2', text: 'Pulizia forno e microonde', freq: 'mensile' }
       ],
-      trimestrale: [{ id: 't1', text: 'Pulizia e riordino frigorifero' }],
+      trimestrale: [{ id: 't1', text: 'Pulizia e riordino frigorifero', freq: 'manuale' }],
       stagionale: [
-        { id: 's1', text: 'Lavare vetri e specchi' },
-        { id: 's2', text: 'Cambio stagione degli armadi' }
+        { id: 's1', text: 'Lavare vetri e specchi', freq: 'manuale' },
+        { id: 's2', text: 'Cambio stagione degli armadi', freq: 'manuale' }
       ]
     };
 
@@ -306,7 +278,36 @@
     let currentTab = 'giornaliera';
     let completedTasks = {};
 
-    // Sincronizzazione in tempo reale
+    // VERIFICA SE LA SPUNTA È ANCORA VALIDA O SE È SCADUTA
+    function isTaskActive(taskId, frequency) {
+      const timestamp = completedTasks[taskId];
+      if (!timestamp) return false;
+
+      const completedDate = new Date(timestamp);
+      const now = new Date();
+
+      if (frequency === 'giornaliera') {
+        // Reset ogni giorno alle 00:00
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        return completedDate >= startOfToday;
+      } 
+      else if (frequency === 'settimanale') {
+        // Reset ogni lunedì alle 00:00
+        const dayOfWeek = now.getDay(); // 0 è Domenica, 1 è Lunedì
+        const diffToMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - diffToMonday);
+        return completedDate >= startOfWeek;
+      } 
+      else if (frequency === 'mensile') {
+        // Reset il primo giorno del mese alle 00:00
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        return completedDate >= startOfMonth;
+      }
+
+      return true; // Per quelle manuali/altre frequenze
+    }
+
+    // SINCRONIZZAZIONE LIVE
     houseRef.on('value', (snapshot) => {
       completedTasks = snapshot.val() || {};
       renderHome();
@@ -314,9 +315,13 @@
       if(activeRoomName) renderRoomTasks(activeRoomName);
     });
 
-    function toggleTask(taskId) {
-      const newState = !completedTasks[taskId];
-      db.ref(`casa_condivisa/tasks/${taskId}`).set(newState ? true : null);
+    function toggleTask(taskId, frequency = 'manuale') {
+      const isActive = isTaskActive(taskId, frequency);
+      if (isActive) {
+        db.ref(`casa_condivisa/tasks_v2/${taskId}`).remove();
+      } else {
+        db.ref(`casa_condivisa/tasks_v2/${taskId}`).set(Date.now());
+      }
     }
 
     function switchPage(pageId) {
@@ -337,9 +342,9 @@
       const container = document.getElementById('home-daily-tasks');
       let html = '';
       tasksData.giornaliera.forEach(task => {
-        const isDone = !!completedTasks[task.id];
+        const isDone = isTaskActive(task.id, task.freq);
         html += `
-          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}', '${task.freq}')">
             <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
             <span class="task-text">${task.text}</span>
           </div>`;
@@ -352,9 +357,9 @@
       const tasks = tasksData[currentTab] || [];
       let html = '';
       tasks.forEach(task => {
-        const isDone = !!completedTasks[task.id];
+        const isDone = isTaskActive(task.id, task.freq);
         html += `
-          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}', '${task.freq}')">
             <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
             <span class="task-text">${task.text}</span>
           </div>`;
@@ -380,9 +385,9 @@
       const tasks = roomTasks[roomName] || [];
       let html = '';
       tasks.forEach(task => {
-        const isDone = !!completedTasks[task.id];
+        const isDone = isTaskActive(task.id, 'manuale');
         html += `
-          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+          <div class="task-item ${isDone ? 'completed' : ''}" onclick="toggleTask('${task.id}', 'manuale')">
             <div class="checkbox">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
             <span class="task-text">${task.text}</span>
           </div>`;
